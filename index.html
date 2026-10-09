@@ -1,0 +1,539 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Thư Mời - Hội nghị ra mắt mô hình Tammi OA - Chính quyền số phường Hòa Bình</title>
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800;900&family=Dancing+Script:wght@700&family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Montserrat', 'sans-serif'],
+                        roboto: ['Roboto', 'sans-serif'],
+                        cursive: ['Dancing Script', 'cursive'],
+                    },
+                    colors: {
+                        brand: {
+                            deepblue: '#003366',
+                            blue: '#0055A4',
+                            lightblue: '#E6F0FA',
+                            gold: '#D4AF37',
+                        }
+                    },
+                    boxShadow: {
+                        'glass': '0 10px 40px -10px rgba(0,51,102,0.1)',
+                        'gold-glow': '0 0 25px rgba(212, 175, 55, 0.5)',
+                        'card-bright': '0 20px 50px rgba(0, 85, 164, 0.08)',
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            background-color: #f0f7ff;
+            overflow-x: hidden;
+        }
+        
+        .no-scroll {
+            overflow: hidden !important;
+        }
+
+        /* ================= COVER PAGE STYLES ================= */
+        #cover-page {
+            position: fixed;
+            top: 0; left: 0; width: 100vw; height: 100vh;
+            background: linear-gradient(135deg, #f0f7ff 0%, #e1effe 50%, #f8fbff 100%);
+            z-index: 50;
+            transition: opacity 1s ease, transform 1s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .bright-cover-grid {
+            position: absolute;
+            inset: 0;
+            background-image: 
+                linear-gradient(rgba(0, 85, 164, 0.04) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(0, 85, 164, 0.04) 1px, transparent 1px);
+            background-size: 50px 50px;
+            pointer-events: none;
+        }
+
+        .cover-content {
+            position: relative;
+            z-index: 20; /* Đảm bảo nội dung trang bìa luôn nằm trên lớp nền */
+        }
+
+        .logo-container-bright {
+            background: rgba(255, 255, 255, 0.9);
+            border: 2px solid rgba(0, 85, 164, 0.15);
+            box-shadow: 0 10px 30px rgba(0, 85, 164, 0.1);
+        }
+
+        .btn-gold-glow {
+            background: linear-gradient(135deg, #FFD700 0%, #D4AF37 50%, #B8860B 100%);
+            color: #003366;
+            transition: all 0.3s ease;
+            box-shadow: 0 8px 20px rgba(212, 175, 55, 0.4);
+            position: relative;
+            z-index: 30; /* Đưa nút bấm lên lớp trên cùng để chắc chắn click được */
+            cursor: pointer;
+        }
+        
+        .btn-gold-glow:hover {
+            transform: translateY(-3px) scale(1.03);
+            box-shadow: 0 12px 30px rgba(212, 175, 55, 0.7);
+        }
+
+        /* ================= INNER CONTENT STYLES ================= */
+        .bright-tech-bg {
+            position: fixed;
+            top: 0; left: 0; width: 100vw; height: 100vh;
+            z-index: -1;
+            background: linear-gradient(135deg, #f4f8ff 0%, #ffffff 50%, #e9f3fe 100%);
+            pointer-events: none;
+        }
+
+        .light-grid-pattern {
+            position: absolute;
+            inset: 0;
+            background-image: 
+                linear-gradient(rgba(0, 170, 255, 0.05) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(0, 170, 255, 0.05) 1px, transparent 1px);
+            background-size: 40px 40px;
+            pointer-events: none;
+        }
+
+        #inner-content {
+            min-height: 100vh;
+            position: relative;
+            z-index: 10;
+            opacity: 0;
+            transform: translateY(30px);
+            pointer-events: none;
+            transition: opacity 1.2s ease, transform 1.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            display: none;
+        }
+
+        .glass-card {
+            background: rgba(255, 255, 255, 0.85);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.95);
+            box-shadow: 0 20px 40px -10px rgba(0, 51, 102, 0.08);
+        }
+
+        .text-gradient-primary {
+            background: linear-gradient(to right, #003366, #0055A4, #003366);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .table-row-item {
+            transition: all 0.2s ease;
+            border-left: 3px solid transparent;
+        }
+        
+        .table-row-item:hover {
+            background-color: rgba(230, 242, 255, 0.9) !important;
+            border-left-color: #0055A4;
+            transform: translateX(3px);
+        }
+
+        /* ================= FAB STYLES ================= */
+        #location-fab {
+            opacity: 0;
+            transform: translateY(20px);
+            pointer-events: none;
+            transition: opacity 0.8s ease 0.6s, transform 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275) 0.6s;
+        }
+
+        .neon-glow-fab {
+            background: linear-gradient(135deg, #0055A4 0%, #003366 100%);
+            box-shadow: 0 0 15px rgba(0, 85, 164, 0.4), 0 0 25px rgba(0, 85, 164, 0.2);
+            animation: pulse-fab 2s infinite alternate;
+        }
+        
+        @keyframes pulse-fab {
+            0% { box-shadow: 0 0 15px rgba(0, 85, 164, 0.4), 0 0 25px rgba(0, 85, 164, 0.2); }
+            100% { box-shadow: 0 0 25px rgba(0, 170, 255, 0.7), 0 0 40px rgba(0, 170, 255, 0.4); }
+        }
+
+        .hide-cover {
+            opacity: 0 !important;
+            transform: scale(1.08) translateY(-30px) !important;
+            pointer-events: none !important;
+        }
+        
+        .show-inner, .show-fab {
+            opacity: 1 !important;
+            transform: translateY(0) !important;
+            pointer-events: auto !important;
+        }
+        
+        #music-toggle {
+            transition: opacity 0.8s ease 0.8s, transform 0.3s ease;
+        }
+    </style>
+</head>
+<body class="font-sans antialiased text-gray-800 no-scroll">
+
+    <!-- Audio Element -->
+    <audio id="bg-music" loop>
+        <source src="https://drive.google.com/file/d/1FQWXXjR0Gt8ggcR9Kki4K1lHZo_exTbW/view?usp=sharing">
+    </audio>
+
+    <!-- Nút điều khiển nhạc góc trên phải -->
+    <button id="music-toggle" class="fixed top-6 right-6 z-50 w-12 h-12 rounded-full bg-white/90 backdrop-blur-md text-brand-blue flex items-center justify-center shadow-md border border-blue-100 opacity-0 pointer-events-none hover:bg-brand-blue hover:text-white transition-colors cursor-pointer">
+        <i class="fa-solid fa-music text-lg"></i>
+    </button>
+
+    <div id="cover-page">
+        <div class="bright-cover-grid"></div>
+        
+        <!-- Các khối nền mờ được vô hiệu hóa click (pointer-events-none) để không chặn nút bấm -->
+        <div class="absolute top-10 left-10 w-96 h-96 bg-blue-300/30 rounded-full mix-blend-multiply filter blur-3xl animate-blob pointer-events-none"></div>
+        <div class="absolute bottom-10 right-10 w-96 h-96 bg-cyan-300/30 rounded-full mix-blend-multiply filter blur-3xl animate-blob animation-delay-2000 pointer-events-none"></div>
+
+        <div class="cover-content flex flex-col items-center text-center px-6 max-w-4xl">
+            
+            <div class="logo-container-bright mb-6 p-5 rounded-full shadow-lg transform hover:scale-105 transition-transform duration-300">
+                <svg class="w-16 h-16 text-brand-blue" fill="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M12 2l2.4 7.4h7.6l-6 4.6 2.3 7.5-6.3-4.8-6.3 4.8 2.3-7.5-6-4.6h7.6z"/>
+                </svg>
+            </div>
+
+            <h3 class="text-brand-blue font-extrabold tracking-[0.3em] uppercase text-sm md:text-base mb-4 bg-white/60 px-6 py-2 rounded-full border border-blue-100 shadow-sm">
+                THƯ MỜI
+            </h3>
+
+            <h1 class="text-3xl md:text-5xl lg:text-6xl font-black text-brand-deepblue leading-tight mb-6 drop-shadow-sm">
+                Ngày hội công dân số <br>
+                <span class="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-cyan-600">Phường Hòa Bình</span>
+            </h1>
+
+            <div class="mb-8 text-gray-700 font-semibold text-lg md:text-xl bg-white/80 px-8 py-3 rounded-full border border-blue-100 shadow-sm">
+                <p>Trân trọng kính mời <span class="font-extrabold text-brand-deepblue ml-1">Quý đại biểu & Quý khách</span></p>
+            </div>
+
+            <!-- COUNTDOWN TIMER SECTION -->
+            <div id="countdown-container" class="flex gap-3 md:gap-4 mb-10 text-brand-deepblue">
+                <div class="bg-white/80 backdrop-blur-sm rounded-xl p-3 w-16 md:w-20 border border-blue-100 shadow-sm flex flex-col items-center justify-center">
+                    <span id="cd-days" class="text-2xl md:text-3xl font-black">--</span>
+                    <span class="text-[10px] md:text-xs uppercase font-bold text-gray-500 tracking-wider">Ngày</span>
+                </div>
+                <div class="bg-white/80 backdrop-blur-sm rounded-xl p-3 w-16 md:w-20 border border-blue-100 shadow-sm flex flex-col items-center justify-center">
+                    <span id="cd-hours" class="text-2xl md:text-3xl font-black">--</span>
+                    <span class="text-[10px] md:text-xs uppercase font-bold text-gray-500 tracking-wider">Giờ</span>
+                </div>
+                <div class="bg-white/80 backdrop-blur-sm rounded-xl p-3 w-16 md:w-20 border border-blue-100 shadow-sm flex flex-col items-center justify-center">
+                    <span id="cd-minutes" class="text-2xl md:text-3xl font-black">--</span>
+                    <span class="text-[10px] md:text-xs uppercase font-bold text-gray-500 tracking-wider">Phút</span>
+                </div>
+                <div class="bg-white/80 backdrop-blur-sm rounded-xl p-3 w-16 md:w-20 border border-blue-100 shadow-sm flex flex-col items-center justify-center">
+                    <span id="cd-seconds" class="text-2xl md:text-3xl font-black text-brand-blue">--</span>
+                    <span class="text-[10px] md:text-xs uppercase font-bold text-gray-500 tracking-wider">Giây</span>
+                </div>
+            </div>
+
+            <button id="open-btn" class="btn-gold-glow px-10 py-4 rounded-full font-bold text-lg md:text-xl flex items-center gap-3 relative overflow-hidden group">
+                <span class="absolute inset-0 w-full h-full bg-white/30 -translate-x-full group-hover:animate-[shimmer_1s_forwards] pointer-events-none"></span>
+                <i class="fa-regular fa-envelope-open text-2xl"></i>
+                <span class="relative z-10 uppercase tracking-wider">Mở thư mời</span>
+            </button>
+        </div>
+    </div>
+
+    <!-- NỘI DUNG CHI TIẾT THƯ MỜI -->
+    <div id="inner-content">
+        <div class="bright-tech-bg">
+            <div class="light-grid-pattern"></div>
+            <div class="absolute top-0 left-0 w-96 h-96 bg-cyan-200/50 rounded-full mix-blend-multiply filter blur-3xl opacity-40 animate-blob pointer-events-none"></div>
+            <div class="absolute top-0 right-0 w-96 h-96 bg-blue-200/50 rounded-full mix-blend-multiply filter blur-3xl opacity-40 animate-blob animation-delay-2000 pointer-events-none"></div>
+            <div class="absolute -bottom-8 left-20 w-96 h-96 bg-indigo-100/50 rounded-full mix-blend-multiply filter blur-3xl opacity-40 animate-blob animation-delay-4000 pointer-events-none"></div>
+        </div>
+
+        <div class="max-w-7xl mx-auto px-4 py-8 md:py-12 relative z-20">
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 md:gap-10">
+                
+                <!-- Left Column -->
+                <section class="glass-card rounded-3xl p-6 md:p-10 flex flex-col items-center text-center relative overflow-hidden">
+                    <div class="absolute top-0 left-0 w-full h-2 bg-gradient-to-r from-blue-400 via-brand-blue to-blue-400"></div>
+
+                    <div class="mb-6 w-full mt-2">
+                        <p class="text-xs md:text-sm font-extrabold text-brand-deepblue tracking-widest uppercase leading-relaxed opacity-90">
+                            ĐẢNG ỦY - HĐND - UBND - UBMTTQ VIỆT NAM<br>PHƯỜNG HÒA BÌNH
+                        </p>
+                    </div>
+
+                    <div class="flex flex-col items-center justify-center mb-6">
+                        <p class="font-cursive text-brand-blue text-2xl md:text-3xl mb-3">
+                            Trân trọng kính mời
+                        </p>
+                        <div class="bg-blue-50 text-brand-blue border border-blue-200 rounded-full px-10 py-2 uppercase font-black text-sm tracking-[0.2em] shadow-sm">
+                            Tới dự
+                        </div>
+                    </div>
+
+                    <div class="mb-8 w-full flex flex-col items-center">
+                        <h2 class="text-2xl md:text-3xl lg:text-4xl font-black text-gradient-primary tracking-tight leading-tight mb-3 uppercase">
+                            Hội nghị ra mắt mô hình<br>
+                            <span class="text-4xl md:text-6xl text-brand-gold drop-shadow-sm mt-2 block font-extrabold">TAMMI OA</span>
+                        </h2>
+                        
+                        <div class="bg-gradient-to-r from-brand-deepblue to-brand-blue text-white font-bold uppercase px-6 py-2.5 rounded-lg text-xs md:text-sm shadow-md mt-1 mb-4">
+                            Chính quyền số phường Hòa Bình
+                        </div>
+                        
+                        <h3 class="text-sm md:text-base font-bold text-gray-700 uppercase leading-snug mt-1 max-w-[95%]">
+                            Khai trương Không gian văn hóa Hồ Chí Minh<br>Và Thư viện cộng đồng
+                        </h3>
+                    </div>
+
+                    <div class="w-full bg-white/90 rounded-2xl p-5 md:p-6 border border-blue-50 shadow-md mb-8 flex flex-col gap-4 text-left">
+                        <div class="flex items-center gap-4">
+                            <div class="w-12 h-12 rounded-xl bg-gradient-to-br from-cyan-100 to-blue-100 text-brand-blue flex items-center justify-center shadow-sm flex-shrink-0">
+                                <i class="fa-regular fa-clock text-2xl"></i>
+                            </div>
+                            <div>
+                                <p class="text-gray-500 font-semibold text-xs uppercase tracking-wider mb-0.5">Thời gian</p>
+                                <p class="font-bold text-brand-deepblue text-base md:text-lg">08 giờ 00 phút</p>
+                                <p class="text-gray-700 font-medium text-sm">ngày 14/10/2026 (Thứ Tư)</p>
+                            </div>
+                        </div>
+                        
+                        <div class="h-[1px] w-full bg-blue-100"></div>
+
+                        <div class="flex items-center gap-4">
+                            <div class="w-12 h-12 rounded-xl bg-gradient-to-br from-cyan-100 to-blue-100 text-brand-blue flex items-center justify-center shadow-sm flex-shrink-0">
+                                <i class="fa-solid fa-location-dot text-2xl"></i>
+                            </div>
+                            <div>
+                                <p class="text-gray-500 font-semibold text-xs uppercase tracking-wider mb-0.5">Địa điểm</p>
+                                <p class="font-bold text-brand-deepblue text-base md:text-lg">Hội trường Đảng ủy</p>
+                                <p class="text-gray-700 font-medium text-sm">phường Hòa Bình</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="w-full text-center mt-auto pt-2">
+                        <p class="font-cursive text-3xl md:text-4xl text-brand-blue font-bold">
+                            Rất hân hạnh được đón tiếp !
+                        </p>
+                    </div>
+                </section>
+
+                <!-- Right Column -->
+                <section class="flex flex-col h-full rounded-3xl shadow-card-bright overflow-hidden glass-card">
+                    <div class="bg-gradient-to-r from-brand-deepblue to-brand-blue p-6 md:p-8 text-center relative overflow-hidden shrink-0">
+                        <div class="absolute inset-0 opacity-15 bg-[radial-gradient(circle_at_2px_2px,white_1px,transparent_0)] [background-size:24px_24px]"></div>
+                        <div class="relative z-10">
+                            <h2 class="text-2xl md:text-3xl font-black text-white tracking-widest uppercase mb-2 drop-shadow-md">
+                                CHƯƠNG TRÌNH
+                            </h2>
+                            <p class="text-blue-100 text-xs md:text-sm font-medium px-2 opacity-90 leading-relaxed">
+                                Hội nghị ra mắt mô hình Tammi OA - Chính quyền số phường Hòa Bình và khai trương Không gian văn hóa Hồ Chí Minh và Thư viện cộng đồng
+                            </p>
+                        </div>
+                    </div>
+
+                    <div class="flex-grow flex flex-col w-full bg-white/75 font-roboto">
+                        <div class="flex bg-blue-50 text-brand-deepblue font-black text-xs md:text-sm uppercase tracking-wider border-b border-blue-100 shrink-0">
+                            <div class="w-[35%] md:w-[30%] p-4 border-r border-blue-100 flex items-center justify-center gap-2">
+                                <i class="fa-regular fa-clock text-brand-blue"></i> THỜI GIAN
+                            </div>
+                            <div class="w-[65%] md:w-[70%] p-4 flex items-center gap-2">
+                                <i class="fa-solid fa-list-ul text-brand-blue"></i> NỘI DUNG
+                            </div>
+                        </div>
+
+                        <div class="flex flex-col text-sm text-gray-800">
+                            <div class="flex table-row-item bg-transparent border-b border-gray-100">
+                                <div class="w-[35%] md:w-[30%] p-3 md:p-4 border-r border-gray-100 font-bold text-brand-deepblue text-center whitespace-nowrap">07h30 - 08h00</div>
+                                <div class="w-[65%] md:w-[70%] p-3 md:p-4">Đón tiếp đại biểu.</div>
+                            </div>
+                            <div class="flex table-row-item bg-white/50 border-b border-gray-100">
+                                <div class="w-[35%] md:w-[30%] p-3 md:p-4 border-r border-gray-100 font-bold text-brand-deepblue text-center whitespace-nowrap">08h00 - 08h15</div>
+                                <div class="w-[65%] md:w-[70%] p-3 md:p-4">Văn nghệ chào mừng.</div>
+                            </div>
+                            <div class="flex table-row-item bg-transparent border-b border-gray-100">
+                                <div class="w-[35%] md:w-[30%] p-3 md:p-4 border-r border-gray-100 font-bold text-brand-deepblue text-center whitespace-nowrap">08h15 - 08h25</div>
+                                <div class="w-[65%] md:w-[70%] p-3 md:p-4">Tuyên bố lý do, giới thiệu đại biểu.</div>
+                            </div>
+                            <div class="flex table-row-item bg-white/50 border-b border-gray-100">
+                                <div class="w-[35%] md:w-[30%] p-3 md:p-4 border-r border-gray-100 font-bold text-brand-deepblue text-center whitespace-nowrap">08h25 - 08h35</div>
+                                <div class="w-[65%] md:w-[70%] p-3 md:p-4">Phát động hưởng ứng Ngày Chuyển đổi số quốc gia 10/10 và Ngày Công dân số Việt Nam 15/10 năm 2026.</div>
+                            </div>
+                            <div class="flex table-row-item bg-blue-50/60 border-b border-gray-100 relative">
+                                <div class="absolute left-0 top-0 bottom-0 w-1 bg-brand-blue"></div>
+                                <div class="w-[35%] md:w-[30%] p-3 md:p-4 border-r border-gray-100 font-black text-brand-blue text-center whitespace-nowrap">08h35 - 08h40</div>
+                                <div class="w-[65%] md:w-[70%] p-3 md:p-4 font-bold text-brand-deepblue">Nghi thức ra mắt mô hình Tammi OA - Chính quyền số phường Hòa Bình, Không gian văn hóa Hồ Chí Minh.</div>
+                            </div>
+                            <div class="flex table-row-item bg-white/50 border-b border-gray-100">
+                                <div class="w-[35%] md:w-[30%] p-3 md:p-4 border-r border-gray-100 font-bold text-brand-deepblue text-center whitespace-nowrap">08h40 - 08h55</div>
+                                <div class="w-[65%] md:w-[70%] p-3 md:p-4">Giới thiệu, trình diễn mô hình Tammi OA - Chính quyền số phường Hòa Bình, Không gian văn hóa Hồ Chí Minh.</div>
+                            </div>
+                            <div class="flex table-row-item bg-transparent border-b border-gray-100">
+                                <div class="w-[35%] md:w-[30%] p-3 md:p-4 border-r border-gray-100 font-bold text-brand-deepblue text-center whitespace-nowrap">08h55 - 09h15</div>
+                                <div class="w-[65%] md:w-[70%] p-3 md:p-4">Trao tặng tivi cho các tổ dân phố.</div>
+                            </div>
+                            <div class="flex table-row-item bg-white/50 border-b border-gray-100">
+                                <div class="w-[35%] md:w-[30%] p-3 md:p-4 border-r border-gray-100 font-bold text-brand-deepblue text-center whitespace-nowrap">09h15 - 09h30</div>
+                                <div class="w-[65%] md:w-[70%] p-3 md:p-4">Đại biểu tham quan, trải nghiệm các gian trưng bày, giới thiệu sản phẩm, tiện ích số.</div>
+                            </div>
+                            <div class="flex table-row-item bg-transparent h-full pb-4">
+                                <div class="w-[35%] md:w-[30%] p-3 md:p-4 border-r border-gray-100 text-center">
+                                    <span class="bg-gradient-to-r from-brand-deepblue to-brand-blue text-white px-4 py-1.5 rounded-full text-xs font-bold shadow-sm whitespace-nowrap inline-block mt-1">Từ 09h30</span>
+                                </div>
+                                <div class="w-[65%] md:w-[70%] p-3 md:p-4">
+                                    <p class="font-bold text-brand-deepblue mb-2">Dự hoạt động tại cơ sở:</p>
+                                    <ul class="space-y-2 text-gray-700">
+                                        <li class="flex items-start gap-2">
+                                            <i class="fa-solid fa-check text-green-600 mt-1 text-xs shrink-0"></i>
+                                            <span>Không gian văn hóa Hồ Chí Minh, Thư viện số tại NVH TDP Thắng Lợi; TDP Lương Đường; TDP Đông Kinh Triều - Tây Kinh Triều.</span>
+                                        </li>
+                                        <li class="flex items-start gap-2">
+                                            <i class="fa-solid fa-check text-green-600 mt-1 text-xs shrink-0"></i>
+                                            <span>Tiết học số, lớp học thông minh tại Trường Tiểu học Hòa Bình - Phân hiệu Trung Hà.</span>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </div>
+        </div>
+    </div>
+
+    <a href="https://maps.app.goo.gl/Cs3VJT63xeDTvoPq8" target="_blank" id="location-fab" class="fixed bottom-6 right-6 z-50 group flex items-center justify-center outline-none">
+        <div class="absolute right-full mr-4 bg-white text-brand-deepblue text-sm font-bold py-2.5 px-4 rounded-xl shadow-xl opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none whitespace-nowrap border border-blue-100">
+            Vị trí Phường Hòa Bình
+            <div class="absolute top-1/2 -right-2 -translate-y-1/2 border-[8px] border-transparent border-l-white"></div>
+        </div>
+        <div class="w-14 h-14 rounded-full flex items-center justify-center text-white neon-glow-fab transition-transform hover:scale-110 duration-300 cursor-pointer">
+            <i class="fa-solid fa-map-location-dot text-2xl"></i>
+        </div>
+    </a>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const btnOpen = document.getElementById('open-btn');
+            const coverPage = document.getElementById('cover-page');
+            const innerContent = document.getElementById('inner-content');
+            const locationFab = document.getElementById('location-fab');
+            const body = document.body;
+            
+            const bgMusic = document.getElementById('bg-music');
+            const musicToggleBtn = document.getElementById('music-toggle');
+            let isMusicPlaying = false;
+
+            // --- 1. COUNTDOWN LOGIC ---
+            const targetDate = new Date("2026-10-14T08:00:00").getTime();
+
+            function updateCountdown() {
+                const now = new Date().getTime();
+                const distance = targetDate - now;
+
+                if (distance < 0) {
+                    document.getElementById('countdown-container').innerHTML = '<div class="text-brand-blue font-bold text-xl uppercase tracking-widest bg-white/80 px-6 py-3 rounded-full border border-blue-100 shadow-sm">Sự kiện đang diễn ra</div>';
+                    return;
+                }
+
+                const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+                const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+                const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+                document.getElementById("cd-days").innerText = days.toString().padStart(2, '0');
+                document.getElementById("cd-hours").innerText = hours.toString().padStart(2, '0');
+                document.getElementById("cd-minutes").innerText = minutes.toString().padStart(2, '0');
+                document.getElementById("cd-seconds").innerText = seconds.toString().padStart(2, '0');
+            }
+
+            updateCountdown();
+            setInterval(updateCountdown, 1000);
+
+            // --- 2. ANIMATION STYLES ---
+            const style = document.createElement('style');
+            style.innerHTML = `
+                @keyframes shimmer {
+                    100% { transform: translateX(100%); }
+                }
+                @keyframes blob {
+                    0% { transform: translate(0px, 0px) scale(1); }
+                    33% { transform: translate(30px, -50px) scale(1.1); }
+                    66% { transform: translate(-20px, 20px) scale(0.9); }
+                    100% { transform: translate(0px, 0px) scale(1); }
+                }
+                .animate-blob { animation: blob 8s infinite ease-in-out; }
+                .animation-delay-2000 { animation-delay: 2s; }
+                .animation-delay-4000 { animation-delay: 4s; }
+            `;
+            document.head.appendChild(style);
+
+            // --- 3. OPEN INVITATION LOGIC ---
+            btnOpen.addEventListener('click', (e) => {
+                e.preventDefault(); // Ngăn chặn sự kiện click mặc định nếu có
+                
+                innerContent.style.display = 'block';
+                void innerContent.offsetWidth; 
+
+                coverPage.classList.add('hide-cover');
+                innerContent.classList.add('show-inner');
+                locationFab.classList.add('show-fab');
+                musicToggleBtn.classList.remove('opacity-0', 'pointer-events-none');
+
+                setTimeout(() => {
+                    coverPage.style.display = 'none';
+                    body.classList.remove('no-scroll');
+                    window.scrollTo(0, 0);
+                }, 1000);
+
+                bgMusic.volume = 0.5;
+                bgMusic.play().then(() => {
+                    isMusicPlaying = true;
+                    musicToggleBtn.innerHTML = '<i class="fa-solid fa-volume-high text-lg"></i>';
+                    musicToggleBtn.classList.add('bg-brand-blue', 'text-white');
+                    musicToggleBtn.classList.remove('text-brand-blue');
+                }).catch(() => {
+                    isMusicPlaying = false;
+                    musicToggleBtn.innerHTML = '<i class="fa-solid fa-volume-xmark text-lg"></i>';
+                });
+            });
+
+            // --- 4. MUSIC TOGGLE CONTROLS ---
+            musicToggleBtn.addEventListener('click', () => {
+                if (isMusicPlaying) {
+                    bgMusic.pause();
+                    musicToggleBtn.innerHTML = '<i class="fa-solid fa-volume-xmark text-lg"></i>';
+                    musicToggleBtn.classList.remove('bg-brand-blue', 'text-white');
+                    musicToggleBtn.classList.add('text-brand-blue');
+                } else {
+                    bgMusic.play();
+                    musicToggleBtn.innerHTML = '<i class="fa-solid fa-volume-high text-lg"></i>';
+                    musicToggleBtn.classList.add('bg-brand-blue', 'text-white');
+                    musicToggleBtn.classList.remove('text-brand-blue');
+                }
+                isMusicPlaying = !isMusicPlaying;
+            });
+        });
+    </script>
+</body>
+</html>
